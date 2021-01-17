@@ -1,6 +1,8 @@
 import random as r
 import time as t
 import logging
+import colorama
+from colorama import Fore, Style
 
 #logging.basicConfig(level=logging.DEBUG)
 
@@ -15,7 +17,14 @@ players = [dict(Team="Cambridge United",Name="Simon Brown"),
   dict(Team="Chelsea",Name="Nathan O'Neil"),
   dict(Team="Chelsea",Name="Mark O'Neil"),
   dict(Team="Manchester United",Name="Paul Knighton"),
-  dict(Team="Manchester United",Name="Tom Noble")]
+  dict(Team="Manchester United",Name="Tom Noble"),
+  dict(Team="Manchester United",Name="Ryan Giggs"),
+  dict(Team="Manchester United",Name="Gary Pallister"),
+  dict(Team="Manchester United",Name="Andrei Kanchelskis"),
+  dict(Team="Tottenham Hotspur",Name="Paul Everal"),
+  dict(Team="Tottenham Hotspur",Name="Darren Anderton"),
+  dict(Team="Tottenham Hotspur",Name="Teddy Sherringham"),
+  dict(Team="Tottenham Hotspur",Name="David Ginola")]
 
 actions = [dict(type="pass",text="{p1} passes to {p2}"),
   dict(type="intercept",text="{p1} intercepts the pass"),
@@ -39,7 +48,19 @@ actions = [dict(type="pass",text="{p1} passes to {p2}"),
   dict(type="finesse",text="He's done 'im!"),
   dict(type="finesse",text="Nutmeg!"),
   dict(type="save",text="Great Save! Sent back up field"),
-  dict(type="clear",text="Good clearance")]
+  dict(type="clear",text="Good clearance"),
+  dict(type="pass",text="{p1} plays the ball to {p2}"),
+  dict(type="intercept",text="What a tackle by {p1}!"),
+  dict(type="pass",text="One-two between {p1} and {p2}"),
+  dict(type="pass",text="Picked up by {p1}"),
+  dict(type="pass",text="{p1} sends it down the line"),
+  dict(type="shot",text="It's a screamer by {p1}!"),
+  dict(type="cross",text="{p1} send it in to the box"),
+  dict(type="pass",text="What a ball by {p1}!"),
+  dict(type="finesse",text="How did he do that?!"),
+  dict(type="finesse",text="What on earth just happened?")]
+
+actionTypes = ["goal"] * 2 + ["shot"] * 3 + ["cross"] * 5 + ["pass"] * 60 + ["finesse"] * 18 + ["intercept"] * 20
 
 closingStatements = ["They think it's all over... it is now",
   "There goes the final whistle",
@@ -103,9 +124,9 @@ def startPlay():
     elif actionType == "intercept":
       actionType = r.choice(["pass"])
     else:
-      allActions = getAllActions()
-      allActions.remove("save")
-      actionType = r.choice(allActions)
+      #allActions = getAllActions()
+      #allActions.remove("save")
+      actionType = r.choice(actionTypes)
     logging.debug("actionType: {}".format(actionType))
     actionText = r.choice(getActionText(actionType))
     if actionType == "intercept":
@@ -129,7 +150,17 @@ def startPlay():
       teamMembers.remove(p1)
       p2 = r.choice(teamMembers)
       logging.debug("player2: {}".format(p2))
-    print(actionText.format(p1=p1,p2=p2,possessingTeam=possession))
+    if actionType == "goal":
+      print(f"{Fore.GREEN}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
+    elif actionType == "intercept":
+      print(f"{Fore.RED}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
+    elif actionType == "cross" or actionType == "shot":
+      print(f"{Fore.YELLOW}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
+    else:
+      print(actionText.format(p1=p1,p2=p2,possessingTeam=possession))
+    if actionType == "pass" and lastAction != "center":
+      if r.randint(1,10) == 1:
+        print("Picked up by {p2}".format(p2=p2))
     if actionType == "goal":
       inPlay = False
     t.sleep(0.5)
@@ -163,7 +194,7 @@ teamTwoScore = 0
 actionType = "center"
 lastAction = "center"
 
-gameLength = int(t.time())+10
+gameLength = int(t.time())+30
 print(welcomeTxt.format(t1=teamOneName,t2=teamTwoName))
 t.sleep(0.2)
 print("This promises to be an exciting match up")
