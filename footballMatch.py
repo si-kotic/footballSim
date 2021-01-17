@@ -2,7 +2,7 @@ import random as r
 import time as t
 import logging
 import colorama
-from colorama import Fore, Style
+from colorama import Fore, Back, Style
 
 #logging.basicConfig(level=logging.DEBUG)
 
@@ -158,7 +158,7 @@ def startPlay():
     elif actionType == "cross" or actionType == "shot":
       print(f"{Fore.YELLOW}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
     elif actionType == "finesse":
-      print(f"{Fore.MAGENTA}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
+      print(f"{Back.MAGENTA}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
     else:
       print(actionText.format(p1=p1,p2=p2,possessingTeam=possession))
     if actionType == "pass" and lastAction != "center":
