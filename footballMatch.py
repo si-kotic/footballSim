@@ -64,7 +64,8 @@ actionTypes = ["goal"] * 2 + ["shot"] * 3 + ["cross"] * 5 + ["pass"] * 60 + ["fi
 
 closingStatements = ["They think it's all over... it is now",
   "There goes the final whistle",
-  "And that's all she wrote"]
+  "And that's all she wrote",
+  "Full time"]
 
 welcomeTxt = "Welcome to {t1} vs {t2}"
 coinFlipTxt = "{team} won the coin flip and will be kicking off todays action"
@@ -217,5 +218,11 @@ signoff = r.choice(closingStatements)
 print(f"{Fore.BLUE}{signoff}{Style.RESET_ALL}")
 if teamOneScore == teamTwoScore:
   print(f"{Fore.BLUE}It's a draw{Style.RESET_ALL}")
+elif teamOneScore > teamTwoScore:
+  winnerText = teamOneName + " Wins!"
+  print(f"{Fore.BLUE}{winnerText}{Style.RESET_ALL}")
+else:
+  winnerText = teamTwoName + " Wins!"
+  print(f"{Fore.BLUE}{winnerText}{Style.RESET_ALL}")
 finalScore = "Final Score: |{t1}|{t1score}|{t2}|{t2score}|"
 print(f"{Fore.BLUE}{finalScore.format(t1=teamOneName,t2=teamTwoName,t1score=teamOneScore,t2score=teamTwoScore)}{Style.RESET_ALL}")
