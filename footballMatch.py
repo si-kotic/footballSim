@@ -152,10 +152,12 @@ def startPlay():
       logging.debug("player2: {}".format(p2))
     if actionType == "goal":
       print(f"{Fore.GREEN}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
-    elif actionType == "intercept":
+    elif actionType == "intercept" or actionType == "save":
       print(f"{Fore.RED}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
     elif actionType == "cross" or actionType == "shot":
       print(f"{Fore.YELLOW}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
+    elif actionType == "finesse":
+      print(f"{Fore.MAGENTA}{actionText.format(p1=p1,p2=p2,possessingTeam=possession)}{Style.RESET_ALL}")
     else:
       print(actionText.format(p1=p1,p2=p2,possessingTeam=possession))
     if actionType == "pass" and lastAction != "center":
@@ -212,5 +214,8 @@ while(int(t.time())<=gameLength):
   lastAction = "center"
   #possession = newPossession
 signoff = r.choice(closingStatements)
-print(signoff)
-print("Final Score: |{t1}|{t1score}|{t2}|{t2score}|".format(t1=teamOneName,t2=teamTwoName,t1score=teamOneScore,t2score=teamTwoScore))
+print(f"{Fore.BLUE}{signoff}{Style.RESET_ALL}")
+if teamOneScore == teamTwoScore:
+  print(f"{Fore.BLUE}It's a draw{Style.RESET_ALL}")
+finalScore = "Final Score: |{t1}|{t1score}|{t2}|{t2score}|"
+print(f"{Fore.BLUE}{finalScore.format(t1=teamOneName,t2=teamTwoName,t1score=teamOneScore,t2score=teamTwoScore)}{Style.RESET_ALL}")
